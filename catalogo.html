@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repositorio ISFDyT N° 15 - Catálogo de Materiales</title>
+    <!-- Tipografía académica -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ============ PALETA ACADÉMICA ============ */
+        :root {
+            /* Colores principales (rojo-terracota) */
+            --color-primario: #8b0000;        /* Rojo oscuro - principal */
+            --color-primario-claro: #a52a2a;   /* Rojo terracota - secundario */
+            --color-acento: #1a3a8f;          /* Azul marino - para acentos */
+            --color-fondo: #fffaf0;           /* Fondo marfil claro */
+            --color-texto: #3a2c1c;           /* Marrón oscuro para texto */
+            --color-blanco: #ffffff;
+            --color-gris-claro: #f5f1e8;
+            --color-gris-medio: #d4c9b8;
+            --color-gris-oscuro: #8a7c6c;
+            
+            /* Sombras y efectos */
+            --sombra-suave: 0 4px 12px rgba(139, 0, 0, 0.08);
+            --sombra-media: 0 6px 20px rgba(139, 0, 0, 0.12);
+            --sombra-fuerte: 0 8px 25px rgba(139, 0, 0, 0.15);
+            
+            /* Tipografía académica */
+            --fuente-titulos: 'Merriweather', serif;
+            --fuente-texto: 'Lato', sans-serif;
+        }
+        
+        /* ============ ESTILOS GENERALES ============ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--fuente-texto);
+            line-height: 1.6;
+            color: var(--color-texto);
+            background-color: var(--color-fondo);
+            font-weight: 300;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--fuente-titulos);
+            font-weight: 400;
+            color: var(--color-primario);
+        }
+        
+        /* ============ ENCABEZADO ============ */
+        .encabezado {
+            background: linear-gradient(135deg, var(--color-primario) 0%, var(--color-primario-claro) 100%);
+            color: var(--color-blanco);
+            padding: 2rem 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(139, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .encabezado::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--color-acento) 0%, #ffd700 50%, var(--color-acento) 100%);
+            z-index: 1;
+        }
+        
+        .encabezado h1 {
+            font-family: var(--fuente-titulos);
+            font-weight: 700;
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+            color: var(--color-blanco);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .encabezado h1::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 25%;
+            width: 50%;
+            height: 3px;
+            background-color: #ffd700;
+            border-radius: 2px;
+        }
+        
+        /* Contenedor de imagen */
+        .imagen-container {
+            max-width: 900px;
+            margin: 1.5rem auto;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--sombra-fuerte);
+            border: 8px solid var(--color-blanco);
+            position: relative;
+        }
+        
+        .imagen-biblioteca-fija {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+            transition: transform 0.7s ease;
+            filter: sepia(0.2) contrast(1.1);
+        }
+        
+        .imagen-biblioteca-fija:hover {
+            transform: scale(1.03);
+        }
+        
+        /* Navegación */
+        nav {
+            background-color: rgba(255, 255, 255, 0.15);
+            padding: 1.2rem;
+            border-radius: 10px;
+            margin: 1.8rem 0;
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            flex-wrap: wrap;
+        }
+        
+        nav a {
+            color: var(--color-blanco);
+            text-decoration: none;
+            font-weight: 400;
+            font-size: 1.1rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            transition: all 0.4s ease;
+            border: 2px solid transparent;
+            font-family: var(--fuente-titulos);
+            letter-spacing: 0.5px;
+        }
+        
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.25);
+            border-color: #ffd700;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Enlace al catálogo */
+        .enlace-catalogo-contenedor {
+            margin: 1.5rem 0;
+        }
+        
+        .enlace-catalogo {
+            background-color: var(--color-blanco);
+            color: var(--color-primario);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin: 1rem 0;
+            box-shadow: var(--sombra-media);
+            transition: all 0.4s ease;
+            border: 2px solid transparent;
+            font-family: var(--fuente-titulos);
+        }
+        
+        .enlace-catalogo:hover {
+            background-color: var(--color-acento);
+            color: var(--color-blanco);
+            transform: translateY(-6px);
+            box-shadow: 0 8px 20px rgba(26, 58, 143, 0.3);
+            border-color: var(--color-blanco);
+        }
+        
+        /* ============ CARRUSEL ACADÉMICO ============ */
+        .carrusel-contenedor {
+            background-color: var(--color-blanco);
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin: 3rem auto;
+            max-width: 1200px;
+            box-shadow: var(--sombra-suave);
+            border: 1px solid var(--color-gris-medio);
+            position: relative;
+        }
+        
+        .carrusel-contenedor h2 {
+            color: var(--color-primario);
+            text-align: center;
+            margin-bottom: 2.5rem;
+            font-size: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--color-gris-claro);
+            position: relative;
+        }
+        
+        .carrusel-contenedor h2::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100px;
+            height: 2px;
+            background-color: var(--color-primario);
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .galeria-imagenes {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2.5rem;
+        }
+        
+        .carrusel-item {
+            display: block;
+            background-color: var(--color-blanco);
+            border-radius: 10px;
+            overflow: hidden;
+            text-decoration: none;
+            color: var(--color-texto);
+            transition: all 0.4s ease;
+            box-shadow: var(--sombra-suave);
+            border: 1px solid var(--color-gris-claro);
+            height: 100%;
+            position: relative;
+        }
+        
+        .carrusel-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background-color: var(--color-primario);
+            z-index: 2;
+        }
+        
+        .carrusel-item:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--sombra-fuerte);
+            border-color: var(--color-primario-claro);
+        }
+        
+        .carrusel-item:hover::before {
+            background-color: var(--color-acento);
+        }
+        
+        .carrusel-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 1px solid var(--color-gris-claro);
+            transition: transform 0.5s ease;
+        }
+        
+        .carrusel-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        .carrusel-caption {
+            padding: 1.5rem;
+        }
+        
+        .carrusel-caption h3 {
+            color: var(--color-primario);
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+            line-height: 1.4;
+            font-weight: 700;
+        }
+        
+        .carrusel-caption p {
+            color: var(--color-gris-oscuro);
+            font-size: 0.95rem;
+            margin-bottom: 0.3rem;
+        }
+        
+        /* Badge de tipo de publicación */
+        .carrusel-item::after {
+            content: 'Publicación';
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--color-acento);
+            color: var(--color-blanco);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            z-index: 3;
+            font-family: var(--fuente-texto);
+        }
+        
+        /* Enlace a colección completa */
+        .enlace-coleccion {
+            text-align: center;
+            margin-top: 2.5rem;
+        }
+        
+        .enlace-coleccion a {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, var(--color-primario) 0%, var(--color-primario-claro) 100%);
+            color: var(--color-blanco);
+            padding: 1rem 2.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.4s ease;
+            border: 2px solid transparent;
+            font-family: var(--fuente-titulos);
+        }
+        
+        .enlace-coleccion a:hover {
+            background: linear-gradient(135deg, var(--color-acento) 0%, #2a4ba8 100%);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(26, 58, 143, 0.3);
+            border-color: var(--color-blanco);
+        }
+        
+        /* ============ CONTENIDO PRINCIPAL ============ */
+        main {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .seccion-info {
+            background-color: var(--color-blanco);
+            border-radius: 10px;
+            padding: 2.5rem;
+            margin-bottom: 2.5rem;
+            box-shadow: var(--sombra-suave);
+            border-left: 5px solid var(--color-primario);
+            transition: all 0.3s ease;
+        }
+        
+        .seccion-info:hover {
+            border-left-color: var(--color-acento);
+            box-shadow: var(--sombra-media);
+        }
+        
+        .seccion-info h2 {
+            color: var(--color-primario);
+            margin-bottom: 1.2rem;
+            font-size: 1.8rem;
+            position: relative;
+            padding-bottom: 0.8rem;
+        }
+        
+        .seccion-info h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: var(--color-primario);
+        }
+        
+        .seccion-info p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: var(--color-texto);
+            margin-bottom: 1rem;
+        }
+        
+        /* ============ PIE DE PÁGINA ============ */
+        .pie-pagina {
+            background-color: var(--color-primario);
+            color: var(--color-blanco);
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-top: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .pie-pagina::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--color-acento) 0%, #ffd700 50%, var(--color-acento) 100%);
+        }
+        
+        .pie-pagina .info-instituto {
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+        
+        .pie-pagina .info-instituto h3 {
+            color: var(--color-blanco);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .pie-pagina .info-instituto p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 0.5rem;
+        }
+        
+        .contacto {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .contacto-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .contacto-item:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+        
+        .contacto-item span:first-child {
+            font-size: 1.3rem;
+        }
+        
+        .pie-pagina > p {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        /* ============ RESPONSIVIDAD ============ */
+        @media (max-width: 992px) {
+            .encabezado h1 {
+                font-size: 1.8rem;
+            }
+            
+            .galeria-imagenes {
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                gap: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .encabezado {
+                padding: 1.5rem 1rem;
+            }
+            
+            .encabezado h1 {
+                font-size: 1.6rem;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+            
+            nav a {
+                display: block;
+                width: 200px;
+                text-align: center;
+            }
+            
+            .galeria-imagenes {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            
+            .contacto {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: center;
+            }
+            
+            .contacto-item {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .encabezado h1 {
+                font-size: 1.4rem;
+            }
+            
+            .carrusel-contenedor {
+                padding: 1.5rem;
+            }
+            
+            .seccion-info {
+                padding: 1.5rem;
+            }
+        }
+        
+        /* ============ ANIMACIONES ============ */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .carrusel-item, .seccion-info {
+            animation: fadeIn 0.6s ease forwards;
+        }
+        
+        .carrusel-item:nth-child(2) { animation-delay: 0.1s; }
+        .carrusel-item:nth-child(3) { animation-delay: 0.2s; }
+        .carrusel-item:nth-child(4) { animation-delay: 0.3s; }
+        
+        /* ============ EFECTO ACADÉMICO (LIBRO) ============ */
+        .carrusel-item {
+            position: relative;
+        }
+        
+        .carrusel-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background-color: var(--color-primario);
+            z-index: 2;
+        }
+        
+        .carrusel-caption::before {
+            content: '"';
+            position: absolute;
+            top: -15px;
+            left: 10px;
+            font-size: 4rem;
+            color: var(--color-gris-claro);
+            font-family: var(--fuente-titulos);
+            font-weight: 700;
+            z-index: 0;
+        }
+        
+        .carrusel-caption h3 {
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <header class="encabezado">
+        <h1>Repositorio del ISFDyT N° 15 - Catálogo de Materiales</h1>
+        
+        <div class="imagen-container">
+            <!-- Asegúrate de que la ruta de la imagen sea correcta -->
+            <img src="imagenes/librosdigitales.jpg" alt="Biblioteca digital del ISFDyT N° 15" class="imagen-biblioteca-fija">
+        </div>
+        
+        <nav>
+            <ul>
+                <li><a href="index.html">Página Principal</a></li>
+                <li><a href="eventos.html">Eventos Académicos</a></li>
+                <li><a href="horarios.html">Horarios de Atención</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+            </ul>
+        </nav>
+        
+        <div class="enlace-catalogo-contenedor">
+            <!-- Reemplaza con la URL real de tu catálogo -->
+            <a href="catalogo.html" class="enlace-catalogo">
+                <span>🔍</span>
+                <span>Buscar en el Catálogo de Materiales</span>
+            </a>
+        </div>
+    </header>
+    
+    <div class="carrusel-contenedor">
+        <h2>Publicaciones Destacadas de Docentes y Alumnos</h2>
+        
+        <div class="galeria-imagenes">
+            <!-- Publicación 1 -->
+            <a href="https://mega.nz/file/XkY3hLAb#piLsHJ4_5gwSkVwfAMN33KR8CnNvDItJ_0RPN9rE_iM" class="carrusel-item" target="_blank">
+                <img src="imagenes/publicacion_A.jpg" alt="TP N°3 Documentación">
+                <div class="carrusel-caption">
+                    <h3>TP N°3 Documentación</h3>
+                    <p>Docente: Rodrigues Maximiliano</p>
+                    <p>Año: 2025 | Área: Bibliotecología</p>
+                </div>
+            </a>
+            
+            <!-- Publicación 2 -->
+            <a href="https://mega.nz/file/j4Ix2A7L#-g-I8VucqL1-G5JSX0_WdvwyvkBH5KQojbqxT6XPPNo" class="carrusel-item">
+                <img src="imagenes/publicacion_B.jpg" alt="TP N°2 FUSEI">
+                <div class="carrusel-caption">
+                    <h3>TP N°2 FUSEI</h3>
+                    <p>Docente: Rodrigues Maximiliano</p>
+                    <p>Año: 2025 | Área: Bibliotecología</p>
+                </div>
+            </a>
+            
+            <!-- Publicación 3 -->
+            <a href="https://mega.nz/file/3lBlAR6C#bl31XfqaZCG31C2PqRN-guAGUkv-N4OtHYEXDKlFurc" class="carrusel-item">
+                <img src="imagenes/publicacion_C.jpg" alt="Materiales para educación especial">
+                <div class="carrusel-caption">
+                    <h3>Preguntas Parcial DIPRO III</h3>
+                    <p>Docente: Williams Jose Maria</p>
+                    <p>Año: 2025 | Área: Bibliotecología</p>
+                </div>
+            </a>
+            
+            <!-- Publicación 4 -->
+            <a href="https://mega.nz/file/msgHAZiQ#5tkyqmLfuFXiFjEJR3Kna9RjJr-OyaB43qCWxZ0ns3c" class="carrusel-item">
+                <img src="imagenes/publicacion_D.jpg" alt="Tecnología aplicada a la educación">
+                <div class="carrusel-caption">
+                    <h3>Trabajo Final Proyecto Biblioteca PLAPI</h3>
+                    <p>Docente: Williams Jose Maria</p>
+                    <p>Año: 2025 | Área: Bibliotecología</p>
+                </div>
+            </a>
+        </div>
+        
+        <p class="enlace-coleccion">
+            <a href="https://mega.nz/folder/DsB3VbZT#eXx11pm7PWaHJ7Qg7bEWYA">
+                <span>📚</span>
+                <span>Ver Archivo Completo de Publicaciones</span>
+            </a>
+        </p>
+    </div>
+    
+    <main>
+        <section class="seccion-info">
+            <h2>Acerca del Repositorio Académico</h2>
+            <p>El Repositorio Digital del ISFDyT N° 15 es un espacio destinado a albergar, preservar y difundir la producción académica de docentes y alumnos de nuestra institución. Aquí encontrarás trabajos finales, investigaciones, materiales didácticos y publicaciones de interés para la comunidad educativa.</p>
+            <p>Nuestro objetivo es fomentar el intercambio de conocimiento y promover la investigación educativa, manteniendo un estándar de calidad académica acorde a nuestra tradición institucional.</p>
+        </section>
+        
+        <section class="seccion-info">
+            <h2>Cómo Acceder a los Materiales</h2>
+            <p>Todos los materiales del repositorio están disponibles para consulta gratuita. Para descargar documentos completos, es necesario registrarse como usuario de la biblioteca. Los docentes y alumnos del instituto pueden acceder con sus credenciales institucionales.</p>
+            <p>Los trabajos están organizados por áreas temáticas, año de publicación y tipo de material (tesis, artículos, materiales didácticos, etc.) para facilitar su localización.</p>
+        </section>
+        
+        <section class="seccion-info">
+            <h2>Envía tu Trabajo</h2>
+            <p>Si eres docente o alumno del ISFDyT N° 15 y deseas publicar tu trabajo en este repositorio, contacta al Departamento de Biblioteca para recibir asesoramiento sobre los formatos y requisitos necesarios. Aceptamos trabajos finales, investigaciones, materiales didácticos y artículos académicos.</p>
+            <p>Todos los trabajos pasan por un proceso de revisión para garantizar la calidad académica del repositorio.</p>
+        </section>
+    </main>
+    
+    <footer class="pie-pagina">
+        <div class="info-instituto">
+            <h3>ISFDyT N° 15</h3>
+            <p>Instituto Superior de Formación Docente y Técnica N° 15</p>
+            <p>Repositorio Digital - Catálogo de Materiales Educativos</p>
+        </div>
+        
+        <div class="contacto">
+            <div class="contacto-item">
+                <span>📍</span>
+                <span>Dirección: Bvard. Calixto Dellepiane 352 esq. I. Varela.
+</span>
+            </div>
+            <div class="contacto-item">
+                <a href="https://www.facebook.com/people/Biblioteca-Pedag%C3%B3gica-Nacional-N%C2%BA-41-Alberto-Gauthier-BPN-41/100068344870801/?locale=es_LA" 
+       target="_blank" 
+       class="red-social facebook">
+        <span class="icono-red-social">📘</span>
+        <span>Síguenos en Facebook</span>
+    </a>
+            </div>
+            <div class="contacto-item">
+                <span>✉️</span>
+                <span>Email: bpn4115@gmail.com</span>
+            </div>
+        </div>
+        
+        <p>&copy; 2023 ISFDyT N° 15 - Todos los derechos reservados</p>
+    </footer>
+</body>
+</html>
