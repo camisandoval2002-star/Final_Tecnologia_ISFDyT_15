@@ -9,6 +9,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     
+    <!-- FontAwesome para iconos del carrusel -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         /* ============ PALETA ACADÉMICA ============ */
         :root {
@@ -200,6 +203,7 @@
             box-shadow: var(--sombra-suave);
             border: 1px solid var(--color-gris-medio);
             position: relative;
+            overflow: hidden;
         }
         
         .carrusel-contenedor h2 {
@@ -224,15 +228,31 @@
             transform: translateX(-50%);
         }
         
-        .galeria-imagenes {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2.5rem;
+        /* Contenedor del carrusel */
+        .carrusel {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+        
+        .carrusel-inner {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            height: 100%;
         }
         
         .carrusel-item {
-            display: block;
+            flex: 0 0 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 1rem;
+            box-sizing: border-box;
+        }
+        
+        /* Tarjeta de publicación */
+        .publicacion-card {
             background-color: var(--color-blanco);
             border-radius: 10px;
             overflow: hidden;
@@ -241,11 +261,15 @@
             transition: all 0.4s ease;
             box-shadow: var(--sombra-suave);
             border: 1px solid var(--color-gris-claro);
-            height: 100%;
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
             position: relative;
+            animation: fadeIn 0.6s ease forwards;
         }
         
-        .carrusel-item::before {
+        .publicacion-card::before {
             content: '';
             position: absolute;
             top: 0;
@@ -256,17 +280,28 @@
             z-index: 2;
         }
         
-        .carrusel-item:hover {
+        .publicacion-card:hover {
             transform: translateY(-10px);
             box-shadow: var(--sombra-fuerte);
             border-color: var(--color-primario-claro);
         }
         
-        .carrusel-item:hover::before {
+        .publicacion-card:hover::before {
             background-color: var(--color-acento);
         }
         
-        .carrusel-item img {
+        .card-content {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        @media (min-width: 768px) {
+            .card-content {
+                flex-direction: row;
+            }
+        }
+        
+        .card-image {
             width: 100%;
             height: 200px;
             object-fit: cover;
@@ -274,42 +309,125 @@
             transition: transform 0.5s ease;
         }
         
-        .carrusel-item:hover img {
-            transform: scale(1.05);
+        @media (min-width: 768px) {
+            .card-image {
+                width: 40%;
+                height: auto;
+                border-bottom: none;
+                border-right: 1px solid var(--color-gris-claro);
+            }
         }
         
-        .carrusel-caption {
+        .publicacion-card:hover .card-image {
+            transform: scale(1.03);
+        }
+        
+        .card-text {
             padding: 1.5rem;
+            flex: 1;
+            position: relative;
         }
         
-        .carrusel-caption h3 {
+        .card-text::before {
+            content: '"';
+            position: absolute;
+            top: -15px;
+            left: 10px;
+            font-size: 4rem;
+            color: var(--color-gris-claro);
+            font-family: var(--fuente-titulos);
+            font-weight: 700;
+            z-index: 0;
+        }
+        
+        .card-text h3 {
             color: var(--color-primario);
-            font-size: 1.2rem;
-            margin-bottom: 0.8rem;
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
             line-height: 1.4;
             font-weight: 700;
+            position: relative;
+            z-index: 1;
         }
         
-        .carrusel-caption p {
+        .card-text p {
             color: var(--color-gris-oscuro);
-            font-size: 0.95rem;
-            margin-bottom: 0.3rem;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
         }
         
-        /* Badge de tipo de publicación */
-        .carrusel-item::after {
-            content: 'Publicación';
-            position: absolute;
-            top: 15px;
-            right: 15px;
+        .card-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .badge {
             background-color: var(--color-acento);
             color: var(--color-blanco);
-            padding: 5px 12px;
+            padding: 0.3rem 0.8rem;
             border-radius: 20px;
             font-size: 0.8rem;
             font-weight: 700;
-            z-index: 3;
             font-family: var(--fuente-texto);
+        }
+        
+        /* Controles del carrusel */
+        .carrusel-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 2rem;
+            gap: 2rem;
+        }
+        
+        .carrusel-btn {
+            background-color: var(--color-primario);
+            color: var(--color-blanco);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+            box-shadow: var(--sombra-suave);
+        }
+        
+        .carrusel-btn:hover {
+            background-color: var(--color-acento);
+            transform: scale(1.1);
+            box-shadow: var(--sombra-media);
+        }
+        
+        .carrusel-btn:disabled {
+            background-color: var(--color-gris-medio);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .carrusel-indicators {
+            display: flex;
+            gap: 0.8rem;
+        }
+        
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--color-gris-medio);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .indicator.active {
+            background-color: var(--color-primario);
+            transform: scale(1.2);
         }
         
         /* Enlace a colección completa */
@@ -468,11 +586,6 @@
             .encabezado h1 {
                 font-size: 1.8rem;
             }
-            
-            .galeria-imagenes {
-                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-                gap: 1.5rem;
-            }
         }
         
         @media (max-width: 768px) {
@@ -496,11 +609,15 @@
                 text-align: center;
             }
             
-            .galeria-imagenes {
-                grid-template-columns: 1fr;
-                max-width: 400px;
-                margin-left: auto;
-                margin-right: auto;
+            .card-content {
+                flex-direction: column;
+            }
+            
+            .card-image {
+                width: 100%;
+                height: 200px;
+                border-bottom: 1px solid var(--color-gris-claro);
+                border-right: none;
             }
             
             .contacto {
@@ -528,6 +645,11 @@
             .seccion-info {
                 padding: 1.5rem;
             }
+            
+            .carrusel-controls {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
         }
         
         /* ============ ANIMACIONES ============ */
@@ -536,45 +658,8 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
-        .carrusel-item, .seccion-info {
+        .seccion-info {
             animation: fadeIn 0.6s ease forwards;
-        }
-        
-        .carrusel-item:nth-child(2) { animation-delay: 0.1s; }
-        .carrusel-item:nth-child(3) { animation-delay: 0.2s; }
-        .carrusel-item:nth-child(4) { animation-delay: 0.3s; }
-        
-        /* ============ EFECTO ACADÉMICO (LIBRO) ============ */
-        .carrusel-item {
-            position: relative;
-        }
-        
-        .carrusel-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background-color: var(--color-primario);
-            z-index: 2;
-        }
-        
-        .carrusel-caption::before {
-            content: '"';
-            position: absolute;
-            top: -15px;
-            left: 10px;
-            font-size: 4rem;
-            color: var(--color-gris-claro);
-            font-family: var(--fuente-titulos);
-            font-weight: 700;
-            z-index: 0;
-        }
-        
-        .carrusel-caption h3 {
-            position: relative;
-            z-index: 1;
         }
     </style>
 </head>
@@ -608,50 +693,103 @@
     <div class="carrusel-contenedor">
         <h2>Publicaciones Destacadas de Docentes y Alumnos</h2>
         
-        <div class="galeria-imagenes">
-            <!-- Publicación 1 -->
-            <a href="https://mega.nz/file/XkY3hLAb#piLsHJ4_5gwSkVwfAMN33KR8CnNvDItJ_0RPN9rE_iM" class="carrusel-item" target="_blank">
-                <img src="imagenes/publicacion_A.jpg" alt="TP N°3 Documentación">
-                <div class="carrusel-caption">
-                    <h3>TP N°3 Documentación</h3>
-                    <p>Docente: Rodrigues Maximiliano</p>
-                    <p>Año: 2025 | Área: Bibliotecología</p>
+        <div class="carrusel">
+            <div class="carrusel-inner" id="carrusel-inner">
+                <!-- Publicación 1 -->
+                <div class="carrusel-item">
+                    <a href="https://mega.nz/file/XkY3hLAb#piLsHJ4_5gwSkVwfAMN33KR8CnNvDItJ_0RPN9rE_iM" class="publicacion-card" target="_blank">
+                        <div class="card-content">
+                            <img src="imagenes/publicacion_A.jpg" alt="TP N°3 Documentación" class="card-image">
+                            <div class="card-text">
+                                <h3>TP N°3 Documentación</h3>
+                                <p>Un trabajo completo sobre técnicas de documentación aplicadas a la bibliotecología, incluyendo métodos de catalogación y organización de materiales.</p>
+                                <p><strong>Docente:</strong> Rodrigues Maximiliano</p>
+                                <p><strong>Año:</strong> 2025 | <strong>Área:</strong> Bibliotecología</p>
+                                <div class="card-meta">
+                                    <span class="badge">Trabajo Práctico</span>
+                                    <span class="badge">Documentación</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
                 </div>
-            </a>
+                
+                <!-- Publicación 2 -->
+                <div class="carrusel-item">
+                    <a href="https://mega.nz/file/j4Ix2A7L#-g-I8VucqL1-G5JSX0_WdvwyvkBH5KQojbqxT6XPPNo" class="publicacion-card" target="_blank">
+                        <div class="card-content">
+                            <img src="imagenes/publicacion_B.jpg" alt="TP N°2 FUSEI" class="card-image">
+                            <div class="card-text">
+                                <h3>TP N°2 FUSEI</h3>
+                                <p>Análisis del sistema de gestión bibliotecaria FUSEI, con énfasis en la implementación y optimización de recursos tecnológicos en bibliotecas.</p>
+                                <p><strong>Docente:</strong> Rodrigues Maximiliano</p>
+                                <p><strong>Año:</strong> 2025 | <strong>Área:</strong> Bibliotecología</p>
+                                <div class="card-meta">
+                                    <span class="badge">Trabajo Práctico</span>
+                                    <span class="badge">Sistemas de Gestión</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                
+                <!-- Publicación 3 -->
+                <div class="carrusel-item">
+                    <a href="https://mega.nz/file/3lBlAR6C#bl31XfqaZCG31C2PqRN-guAGUkv-N4OtHYEXDKlFurc" class="publicacion-card" target="_blank">
+                        <div class="card-content">
+                            <img src="imagenes/publicacion_C.jpg" alt="Materiales para educación especial" class="card-image">
+                            <div class="card-text">
+                                <h3>Preguntas Parcial DIPRO III</h3>
+                                <p>Compilación de preguntas y respuestas para el parcial de Diseño de Proyectos III, incluyendo metodologías y casos de estudio aplicados.</p>
+                                <p><strong>Docente:</strong> Williams Jose Maria</p>
+                                <p><strong>Año:</strong> 2025 | <strong>Área:</strong> Bibliotecología</p>
+                                <div class="card-meta">
+                                    <span class="badge">Examen</span>
+                                    <span class="badge">Diseño de Proyectos</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                
+                <!-- Publicación 4 -->
+                <div class="carrusel-item">
+                    <a href="https://mega.nz/file/msgHAZiQ#5tkyqmLfuFXiFjEJR3Kna9RjJr-OyaB43qCWxZ0ns3c" class="publicacion-card" target="_blank">
+                        <div class="card-content">
+                            <img src="imagenes/publicacion_D.jpg" alt="Tecnología aplicada a la educación" class="card-image">
+                            <div class="card-text">
+                                <h3>Trabajo Final Proyecto Biblioteca PLAPI</h3>
+                                <p>Proyecto integral de implementación de una biblioteca PLAPI (Plataforma de Acceso a la Información) con enfoque en accesibilidad y recursos digitales.</p>
+                                <p><strong>Docente:</strong> Williams Jose Maria</p>
+                                <p><strong>Año:</strong> 2025 | <strong>Área:</strong> Bibliotecología</p>
+                                <div class="card-meta">
+                                    <span class="badge">Proyecto Final</span>
+                                    <span class="badge">PLAPI</span>
+                                    <span class="badge">Bibliotecas Digitales</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
             
-            <!-- Publicación 2 -->
-            <a href="https://mega.nz/file/j4Ix2A7L#-g-I8VucqL1-G5JSX0_WdvwyvkBH5KQojbqxT6XPPNo" class="carrusel-item">
-                <img src="imagenes/publicacion_B.jpg" alt="TP N°2 FUSEI">
-                <div class="carrusel-caption">
-                    <h3>TP N°2 FUSEI</h3>
-                    <p>Docente: Rodrigues Maximiliano</p>
-                    <p>Año: 2025 | Área: Bibliotecología</p>
+            <div class="carrusel-controls">
+                <button class="carrusel-btn" id="prev-btn" aria-label="Publicación anterior">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                
+                <div class="carrusel-indicators" id="indicators">
+                    <!-- Los indicadores se generarán con JavaScript -->
                 </div>
-            </a>
-            
-            <!-- Publicación 3 -->
-            <a href="https://mega.nz/file/3lBlAR6C#bl31XfqaZCG31C2PqRN-guAGUkv-N4OtHYEXDKlFurc" class="carrusel-item">
-                <img src="imagenes/publicacion_C.jpg" alt="Materiales para educación especial">
-                <div class="carrusel-caption">
-                    <h3>Preguntas Parcial DIPRO III</h3>
-                    <p>Docente: Williams Jose Maria</p>
-                    <p>Año: 2025 | Área: Bibliotecología</p>
-                </div>
-            </a>
-            
-            <!-- Publicación 4 -->
-            <a href="https://mega.nz/file/msgHAZiQ#5tkyqmLfuFXiFjEJR3Kna9RjJr-OyaB43qCWxZ0ns3c" class="carrusel-item">
-                <img src="imagenes/publicacion_D.jpg" alt="Tecnología aplicada a la educación">
-                <div class="carrusel-caption">
-                    <h3>Trabajo Final Proyecto Biblioteca PLAPI</h3>
-                    <p>Docente: Williams Jose Maria</p>
-                    <p>Año: 2025 | Área: Bibliotecología</p>
-                </div>
-            </a>
+                
+                <button class="carrusel-btn" id="next-btn" aria-label="Siguiente publicación">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
         </div>
         
         <p class="enlace-coleccion">
-            <a href="https://mega.nz/folder/DsB3VbZT#eXx11pm7PWaHJ7Qg7bEWYA">
+            <a href="https://mega.nz/folder/DsB3VbZT#eXx11pm7PWaHJ7Qg7bEWYA" target="_blank">
                 <span>📚</span>
                 <span>Ver Archivo Completo de Publicaciones</span>
             </a>
@@ -688,13 +826,12 @@
         <div class="contacto">
             <div class="contacto-item">
                 <span>📍</span>
-                <span>Dirección: Bvard. Calixto Dellepiane 352 esq. I. Varela.
-</span>
+                <span>Dirección: Bvard. Calixto Dellepiane 352 esq. I. Varela.</span>
             </div>
             <div class="contacto-item">
                 <a href="https://www.facebook.com/people/Biblioteca-Pedag%C3%B3gica-Nacional-N%C2%BA-41-Alberto-Gauthier-BPN-41/100068344870801/?locale=es_LA" 
        target="_blank" 
-       class="red-social facebook">
+       class="red-social facebook" style="color: white; text-decoration: none; display: flex; align-items: center; gap: 8px;">
         <span class="icono-red-social">📘</span>
         <span>Síguenos en Facebook</span>
     </a>
@@ -707,5 +844,86 @@
         
         <p>&copy; 2023 ISFDyT N° 15 - Todos los derechos reservados</p>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const carruselInner = document.getElementById('carrusel-inner');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const indicatorsContainer = document.getElementById('indicators');
+            
+            // Obtener todos los items del carrusel
+            const items = document.querySelectorAll('.carrusel-item');
+            const totalItems = items.length;
+            let currentIndex = 0;
+            
+            // Crear indicadores
+            for (let i = 0; i < totalItems; i++) {
+                const indicator = document.createElement('div');
+                indicator.classList.add('indicator');
+                if (i === 0) indicator.classList.add('active');
+                indicator.addEventListener('click', () => goToSlide(i));
+                indicatorsContainer.appendChild(indicator);
+            }
+            
+            // Actualizar controles
+            function updateControls() {
+                prevBtn.disabled = currentIndex === 0;
+                nextBtn.disabled = currentIndex === totalItems - 1;
+                
+                // Actualizar indicadores
+                document.querySelectorAll('.indicator').forEach((indicator, index) => {
+                    indicator.classList.toggle('active', index === currentIndex);
+                });
+            }
+            
+            // Ir a un slide específico
+            function goToSlide(index) {
+                currentIndex = index;
+                carruselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
+                updateControls();
+            }
+            
+            // Siguiente slide
+            function nextSlide() {
+                if (currentIndex < totalItems - 1) {
+                    currentIndex++;
+                    carruselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
+                    updateControls();
+                }
+            }
+            
+            // Slide anterior
+            function prevSlide() {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    carruselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
+                    updateControls();
+                }
+            }
+            
+            // Event listeners
+            prevBtn.addEventListener('click', prevSlide);
+            nextBtn.addEventListener('click', nextSlide);
+            
+            // Navegación con teclado
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft') prevSlide();
+                if (e.key === 'ArrowRight') nextSlide();
+            });
+            
+            // Auto-avance opcional (cada 8 segundos)
+            let autoSlideInterval = setInterval(nextSlide, 8000);
+            
+            // Pausar auto-avance al interactuar
+            carruselInner.addEventListener('mouseenter', () => clearInterval(autoSlideInterval));
+            carruselInner.addEventListener('mouseleave', () => {
+                autoSlideInterval = setInterval(nextSlide, 8000);
+            });
+            
+            // Inicializar controles
+            updateControls();
+        });
+    </script>
 </body>
 </html>
